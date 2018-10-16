@@ -1,0 +1,29 @@
+{
+  "visual": {
+    "name": "pbiflatpercent111",
+    "displayName": "pbi_flatpercent_1_11",
+    "guid": "pbiflatpercent1115CCE995B042A45D29077864454EBD9FF",
+    "visualClassName": "Visual",
+    "version": "1.0.0",
+    "description": "",
+    "supportUrl": "",
+    "gitHubUrl": ""
+  },
+  "apiVersion": "1.11.0",
+  "author": {
+    "name": "Rémy Jacquemin",
+    "email": "rjacquemin75@gmail.com"
+  },
+  "assets": {
+    "icon": "assets/icon.png"
+  },
+  "externalJS": [
+    "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js",
+    "node_modules/d3-selection/dist/d3-selection.min.js",
+    "d3Injector.js"
+  ],
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json",
+  "dependencies": "dependencies.json",
+  "stringResources": []
+}
