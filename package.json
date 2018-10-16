@@ -1,5 +1,11 @@
 {
   "name": "visual",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/payns75/pbi_flatpercent_1_11.git"
+  },
   "dependencies": {
     "@types/d3": "4.13.0",
     "powerbi-visuals-utils-dataviewutils": "1.2.0"
