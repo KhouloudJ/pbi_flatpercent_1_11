@@ -7,3 +7,4 @@ TODO
 - Faire passer les tests
 
 ## Questions
+- Pour les VOR, deux couleurs ? -> Paramètrable ?
