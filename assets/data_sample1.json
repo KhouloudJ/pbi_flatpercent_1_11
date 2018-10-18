@@ -48,6 +48,13 @@
             "text": 21,
             "arc": 37,
             "vor": 100
+        },
+        {
+            "id": 7,
+            "libelle": "Vide",
+            "text": null,
+            "arc": null,
+            "vor": null
         }
     ]
 }
