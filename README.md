@@ -3,8 +3,10 @@ TODO
 
 ## General
 - Comment faire pour ignorer les fichiers de .tmp dans gitignore
-- Dans le sample_report, ajouter les données nécessaires au test
 - Faire passer les tests
 
+## Visual
+- Configuration du text.
+- Configuration de l'arc.
+
 ## Questions
-- Pour les VOR, deux couleurs ? -> Paramètrable ?

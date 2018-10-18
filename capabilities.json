@@ -78,6 +78,28 @@
                     "type": {
                         "bool": true
                     }
+                },
+                "color": {
+                    "displayName": "Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "fontsize": {
+                    "displayName": "Text Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "retourligne": {
+                    "displayName": "Line return",
+                    "type": {
+                        "bool": true
+                    }
                 }
             }
         },

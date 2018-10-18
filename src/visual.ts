@@ -25,7 +25,6 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
-                .attr("dy", "0.7ex")
                 .attr('text-anchor', 'middle');
 
             this.bottom_container = document.createElement("div");
@@ -44,20 +43,22 @@ module powerbi.extensibility.visual {
 
             this.bottom_container.className = avec_legend ? "bottom_container" : "none";
             this.legend_text.textContent = legend_text;
+            this.bottom_container.style.color = this.settings.legend.color;
+            this.bottom_container.style.fontSize = `${this.settings.legend.fontsize}px`;
+            this.bottom_container.style.whiteSpace = this.settings.legend.retourligne ? "normal" : "nowrap";
             var legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
-            
-            var radius = Math.min(options.viewport.width, options.viewport.height) / 2 - legend_height;
+
+            var radius = Math.min(options.viewport.width, options.viewport.height - legend_height) / 2;
             this.svg.attr("width", options.viewport.width);
             this.svg.attr("height", radius * 2);
             this.gcontainer.attr("transform", `translate(${options.viewport.width / 2}, ${radius})`);
 
-            const value_text = +Visual.getvalue(options.dataViews[0].categorical, "value_text");
+            let value_text = Visual.getvalue(options.dataViews[0].categorical, "value_text");
+            value_text = isNaN(value_text) || value_text == null ? "" : `${value_text}%`;
             const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
             const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
-            var textcolor = this.settings.vor.show ? Visual.getVorColor(this.settings, value_text) : "#000";
             var arc_width = 20;
-
             var arc1 = d3.arc().outerRadius(radius).innerRadius(radius - arc_width);
             var arc2 = d3.arc().outerRadius(radius - arc_width + 1).innerRadius(radius - arc_width * 2);
 
@@ -70,9 +71,12 @@ module powerbi.extensibility.visual {
                 .attr("d", <any>arc2);
 
             this.text.data([value_text])
-                .style('fill', textcolor)
+                .style('fill', Visual.getVorColor(this.settings, vor_flag))
                 .style('font-size', `${16}vmin`)
-                .text(d => d + '%');
+                .text(d => d);
+
+            const text_height = (<any>this.text.node()).getBoundingClientRect().height;
+            this.text.attr("dy", `${text_height/2 - 12}px`);
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
@@ -92,25 +96,25 @@ module powerbi.extensibility.visual {
         }
 
         public static getcategory(categorical: DataViewCategorical, name: string): any {
-            const item = categorical.categories.filter(f => f.source.roles[name]).map(m => m.values[0]);
-            
-            if (item && item.length === 1) {
-                return item[0].toString();
+            if (categorical.categories) {
+                const item = categorical.categories.filter(f => f.source.roles[name]).map(m => m.values[0]);
+
+                if (item && item.length === 1) {
+                    return item[0];
+                }
             }
         }
 
         private static getVorColor(settings: VisualSettings, value: number): string {
-            // let measurevorlow = settings.vor.firstValue;
-            // let measurevormiddle = settings.vor.secondValue;
+            if (settings.vor.show && value) {
+                switch (value) {
+                    case 1: return settings.vor.lowColor;
+                    case 10: return settings.vor.middleColor;
+                    case 100: return settings.vor.highColor;
+                }
+            }
 
-            // if (value < measurevorlow) {
-            //     return settings.vor.lowColor;
-            // } else if (value > measurevorlow && value < measurevormiddle) {
-            //     return settings.vor.middleColor;
-            // } else {
-            //     return settings.vor.highColor;
-            // }
-            return "red";
+            return "#000;";
         }
     }
 }

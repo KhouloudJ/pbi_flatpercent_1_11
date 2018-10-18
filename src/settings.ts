@@ -9,6 +9,9 @@ module powerbi.extensibility.visual {
 
   export class legendSettings {
     public show: boolean = true;
+    public color: string = "#616161";
+    public fontsize: number = 28;
+    public retourligne: boolean = false;
   }
 
   export class VorSettings {
