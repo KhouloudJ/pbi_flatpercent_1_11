@@ -11,6 +11,11 @@
             "kind": "Measure"
         },
         {
+            "displayName": "VOR Flag",
+            "name": "vor_flag",
+            "kind": "Measure"
+        },
+        {
             "displayName": "Legend",
             "name": "legend",
             "kind": "Grouping",
@@ -31,6 +36,9 @@
                     "value_arc": {
                         "max": 1
                     },
+                    "vor_flag": {
+                        "max": 1
+                    },
                     "legend": {
                         "max": 1
                     }
@@ -47,6 +55,11 @@
                         {
                             "bind": {
                                 "to": "value_arc"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "vor_flag"
                             }
                         }
                     ]
@@ -105,18 +118,6 @@
                                 "color": true
                             }
                         }
-                    }
-                },
-                "firstValue": {
-                    "displayName": "First Target",
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "secondValue": {
-                    "displayName": "Second Target",
-                    "type": {
-                        "numeric": true
                     }
                 }
             }

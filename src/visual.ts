@@ -53,6 +53,7 @@ module powerbi.extensibility.visual {
 
             const value_text = +Visual.getvalue(options.dataViews[0].categorical, "value_text");
             const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
+            const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
             var textcolor = this.settings.vor.show ? Visual.getVorColor(this.settings, value_text) : "#000";
             var arc_width = 20;
@@ -99,16 +100,17 @@ module powerbi.extensibility.visual {
         }
 
         private static getVorColor(settings: VisualSettings, value: number): string {
-            let measurevorlow = settings.vor.firstValue;
-            let measurevormiddle = settings.vor.secondValue;
+            // let measurevorlow = settings.vor.firstValue;
+            // let measurevormiddle = settings.vor.secondValue;
 
-            if (value < measurevorlow) {
-                return settings.vor.lowColor;
-            } else if (value > measurevorlow && value < measurevormiddle) {
-                return settings.vor.middleColor;
-            } else {
-                return settings.vor.highColor;
-            }
+            // if (value < measurevorlow) {
+            //     return settings.vor.lowColor;
+            // } else if (value > measurevorlow && value < measurevormiddle) {
+            //     return settings.vor.middleColor;
+            // } else {
+            //     return settings.vor.highColor;
+            // }
+            return "red";
         }
     }
 }

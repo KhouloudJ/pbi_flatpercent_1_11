@@ -2,6 +2,7 @@
     "objectifs": [
         {
             "id": 0,
+            "Category": "Categorie 1",
             "libelle": "Test de base vor rouge",
             "text": 57,
             "arc": 75,
@@ -9,6 +10,7 @@
         },
         {
             "id": 1,
+            "Category": "Categorie 1",
             "libelle": "Test de base vor orange",
             "text": 75,
             "arc": 57,
@@ -16,6 +18,7 @@
         },
         {
             "id": 2,
+            "Category": "Categorie 1",
             "libelle": "Test de base vor vert",
             "text": 75,
             "arc": 80,
@@ -23,6 +26,7 @@
         },
         {
             "id": 3,
+            "Category": "Categorie 2",
             "libelle": "Test sans text",
             "text": null,
             "arc": 33,
@@ -30,6 +34,7 @@
         },
         {
             "id": 4,
+            "Category": "Categorie 3",
             "libelle": "Test sans arc",
             "text": 47,
             "arc": null,
@@ -37,6 +42,7 @@
         },
         {
             "id": 5,
+            "Category": "Categorie 3",
             "libelle": "Test sans vor",
             "text": 81,
             "arc": 65,
@@ -44,6 +50,7 @@
         },
         {
             "id": 6,
+            "Category": "Categorie 4",
             "libelle": null,
             "text": 21,
             "arc": 37,
@@ -51,6 +58,7 @@
         },
         {
             "id": 7,
+            "Category": "Categorie 4",
             "libelle": "Vide",
             "text": null,
             "arc": null,
