@@ -1,0 +1,53 @@
+{
+    "objectifs": [
+        {
+            "id": 0,
+            "libelle": "Test de base vor rouge",
+            "text": 57,
+            "arc": 75,
+            "vor": 1
+        },
+        {
+            "id": 1,
+            "libelle": "Test de base vor orange",
+            "text": 75,
+            "arc": 57,
+            "vor": 10
+        },
+        {
+            "id": 2,
+            "libelle": "Test de base vor vert",
+            "text": 75,
+            "arc": 80,
+            "vor": 100
+        },
+        {
+            "id": 3,
+            "libelle": "Test sans text",
+            "text": null,
+            "arc": 33,
+            "vor": 100
+        },
+        {
+            "id": 4,
+            "libelle": "Test sans arc",
+            "text": 47,
+            "arc": null,
+            "vor": 100
+        },
+        {
+            "id": 5,
+            "libelle": "Test sans vor",
+            "text": 81,
+            "arc": 65,
+            "vor": null
+        },
+        {
+            "id": 6,
+            "libelle": null,
+            "text": 21,
+            "arc": 37,
+            "vor": 100
+        }
+    ]
+}

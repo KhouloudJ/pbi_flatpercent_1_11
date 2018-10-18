@@ -5,11 +5,13 @@ module powerbi.extensibility.visual {
         private settings: VisualSettings;
         private gcontainer: d3.Selection<d3.BaseType, {}, null, undefined>;
         private pie = d3.pie().sort(null).value(d => <any>d);
-        private color1 = d3.scaleOrdinal().range(["#003A84", "#00B0E8"]);
-        private color2 = d3.scaleOrdinal().range(["#30629D", "#3DC0ED"]);
+        private color1 = ["#003A84", "#00B0E8"];
+        private color2 = ["#30629D", "#3DC0ED"];
         private path1: d3.Selection<d3.BaseType, d3.PieArcDatum<number | { valueOf(): number }>, d3.BaseType, {}>;
         private path2: d3.Selection<d3.BaseType, d3.PieArcDatum<number | { valueOf(): number }>, d3.BaseType, {}>;
-        private text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>;;
+        private text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>;
+        private bottom_container: HTMLElement;
+        private legend_text: Text;
 
         constructor(options: VisualConstructorOptions) {
             this.svg = d3.select(options.element).append('svg');
@@ -23,36 +25,52 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
-                .attr("dy", "0.6ex")
+                .attr("dy", "0.7ex")
                 .attr('text-anchor', 'middle');
+
+            this.bottom_container = document.createElement("div");
+            this.bottom_container.className = "none";
+
+            this.legend_text = this.bottom_container.appendChild(document.createTextNode(""));
+            this.bottom_container.appendChild(this.legend_text);
+            options.element.appendChild(this.bottom_container);
         }
 
         public update(options: VisualUpdateOptions) {
-            console.log(options.dataViews[0]);
-            this.svg.attr("width", options.viewport.width);
-            this.svg.attr("height", options.viewport.height);
-            this.gcontainer.attr("transform", `translate(${options.viewport.width / 2}, ${options.viewport.height / 2})`);
+            this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            var value = 70;
-            var textvalue = 54;
-            var textcolor = "#000";
-            var radius = Math.min(options.viewport.width, options.viewport.height) / 2;
+            const legend_text = Visual.getcategory(options.dataViews[0].categorical, "legend");
+            const avec_legend = this.settings.legend.show && legend_text;
+
+            this.bottom_container.className = avec_legend ? "bottom_container" : "none";
+            this.legend_text.textContent = legend_text;
+            var legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
+            
+            var radius = Math.min(options.viewport.width, options.viewport.height) / 2 - legend_height;
+            this.svg.attr("width", options.viewport.width);
+            this.svg.attr("height", radius * 2);
+            this.gcontainer.attr("transform", `translate(${options.viewport.width / 2}, ${radius})`);
+
+            const value_text = +Visual.getvalue(options.dataViews[0].categorical, "value_text");
+            const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
+
+            var textcolor = this.settings.vor.show ? Visual.getVorColor(this.settings, value_text) : "#000";
             var arc_width = 20;
 
             var arc1 = d3.arc().outerRadius(radius).innerRadius(radius - arc_width);
             var arc2 = d3.arc().outerRadius(radius - arc_width + 1).innerRadius(radius - arc_width * 2);
 
-            this.path1.data(this.pie([value, 100 - value]))
-                .style("fill", d => <any>this.color1(<any>d.data))
+            this.path1.data(this.pie([value_arc, 100 - value_arc]))
+                .style("fill", d => this.color1[d.index])
                 .attr("d", <any>arc1);
 
-            this.path2.data(this.pie([value, 100 - value]))
-                .style("fill", d => <any>this.color2(<any>d.data))
+            this.path2.data(this.pie([value_arc, 100 - value_arc]))
+                .style("fill", d => this.color2[d.index])
                 .attr("d", <any>arc2);
 
-            this.text.data([textvalue])
+            this.text.data([value_text])
                 .style('fill', textcolor)
-                .style('font-size', `${24}vmin`)
+                .style('font-size', `${16}vmin`)
                 .text(d => d + '%');
         }
 
@@ -62,6 +80,35 @@ module powerbi.extensibility.visual {
 
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+        }
+
+        public static getvalue(categorical: DataViewCategorical, name: string): any {
+            const item = categorical.values.filter(f => f.source.roles[name]).map(m => m.values[0]);
+
+            if (item && item.length === 1) {
+                return item[0];
+            }
+        }
+
+        public static getcategory(categorical: DataViewCategorical, name: string): any {
+            const item = categorical.categories.filter(f => f.source.roles[name]).map(m => m.values[0]);
+            
+            if (item && item.length === 1) {
+                return item[0].toString();
+            }
+        }
+
+        private static getVorColor(settings: VisualSettings, value: number): string {
+            let measurevorlow = settings.vor.firstValue;
+            let measurevormiddle = settings.vor.secondValue;
+
+            if (value < measurevorlow) {
+                return settings.vor.lowColor;
+            } else if (value > measurevorlow && value < measurevormiddle) {
+                return settings.vor.middleColor;
+            } else {
+                return settings.vor.highColor;
+            }
         }
     }
 }

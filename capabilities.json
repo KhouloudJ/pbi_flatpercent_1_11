@@ -1,38 +1,84 @@
 {
     "dataRoles": [
         {
-            "displayName": "Category Data",
-            "name": "category",
-            "kind": "Grouping"
+            "displayName": "Value Text",
+            "name": "value_text",
+            "kind": "Measure"
         },
         {
-            "displayName": "Measure Data",
-            "name": "measure",
+            "displayName": "Value Arc",
+            "name": "value_arc",
             "kind": "Measure"
+        },
+        {
+            "displayName": "Legend",
+            "name": "legend",
+            "kind": "Grouping",
+            "requiredTypes": [
+                {
+                    "text": true
+                }
+            ]
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "value_text": {
+                        "max": 1
+                    },
+                    "value_arc": {
+                        "max": 1
+                    },
+                    "legend": {
+                        "max": 1
+                    }
+                }
+            ],
+            "categorical": {
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "value_text"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "value_arc"
+                            }
+                        }
+                    ]
+                },
+                "categories": {
+                    "for": { "in": "legend" }
+                }
+            }
         }
     ],
     "objects": {
-        "dataPoint": {
-            "displayName": "Data colors",
+        "legend": {
+            "displayName": "Legend",
             "properties": {
-                "defaultColor": {
-                    "displayName": "Default color",
+                "show": {
                     "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
+                        "bool": true
                     }
-                },
-                "showAllDataPoints": {
-                    "displayName": "Show all",
+                }
+            }
+        },
+        "vor": {
+            "displayName": "KPI",
+            "properties": {
+                "show": {
+                    "displayName": "KPI Property Switch",
                     "type": {
                         "bool": true
                     }
                 },
-                "fill": {
-                    "displayName": "Fill",
+                "lowColor": {
+                    "displayName": "Low Color",
                     "type": {
                         "fill": {
                             "solid": {
@@ -41,44 +87,40 @@
                         }
                     }
                 },
-                "fillRule": {
-                    "displayName": "Color saturation",
+                "middleColor": {
+                    "displayName": "Middle Color",
                     "type": {
-                        "fill": {}
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
                     }
                 },
-                 "fontSize": {
-                    "displayName": "Text Size",
+                "highColor": {
+                    "displayName": "High Color",
                     "type": {
-                        "formatting": {
-                            "fontSize": true
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
                         }
+                    }
+                },
+                "firstValue": {
+                    "displayName": "First Target",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "secondValue": {
+                    "displayName": "Second Target",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }
         }
     },
-    "dataViewMappings": [
-        {
-            "categorical": {
-                "categories": {
-                    "for": {
-                        "in": "category"
-                    },
-                    "dataReductionAlgorithm": {
-                        "top": {}
-                    }
-                },
-                "values": {
-                    "select": [
-                        {
-                            "bind": {
-                                "to": "measure"
-                            }
-                        }
-                    ]
-                }
-            }
-        }
-    ]
+    "suppressDefaultTitle": true
 }
