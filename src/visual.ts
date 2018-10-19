@@ -46,7 +46,7 @@ module powerbi.extensibility.visual {
             this.bottom_container.style.color = this.settings.legend.color;
             this.bottom_container.style.fontSize = `${this.settings.legend.fontsize}px`;
             this.bottom_container.style.whiteSpace = this.settings.legend.retourligne ? "normal" : "nowrap";
-            var legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
+            const legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
 
             var radius = Math.min(options.viewport.width, options.viewport.height - legend_height) / 2;
             this.svg.attr("width", options.viewport.width);
@@ -58,9 +58,9 @@ module powerbi.extensibility.visual {
             const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
             const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
-            var arc_width = this.settings.shape.arc_linesize;
-            var arc1 = d3.arc().outerRadius(radius).innerRadius(radius - arc_width);
-            var arc2 = d3.arc().outerRadius(radius - arc_width + 1).innerRadius(radius - arc_width * 2);
+            const arc_width = this.settings.shape.arc_linesize;
+            const arc1 = d3.arc().outerRadius(radius).innerRadius(radius - arc_width);
+            const arc2 = d3.arc().outerRadius(radius - arc_width + 1).innerRadius(radius - arc_width * 2);
 
             this.path1.data(this.pie([value_arc, 100 - value_arc]))
                 .style("fill", d => this.color1[d.index])

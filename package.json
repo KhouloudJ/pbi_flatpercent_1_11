@@ -7,10 +7,8 @@
     "url": "https://github.com/payns75/pbi_flatpercent_1_11.git"
   },
   "dependencies": {
+    "d3": "4.13.0",
     "@types/d3": "4.13.0",
     "powerbi-visuals-utils-dataviewutils": "1.2.0"
-  },
-  "devDependencies": {
-    "d3": "4.13.0"
   }
 }
