@@ -5,6 +5,7 @@ module powerbi.extensibility.visual {
   export class VisualSettings extends DataViewObjectsParser {
     public legend: legendSettings = new legendSettings();
     public vor: VorSettings = new VorSettings();
+    public shape: shapeSettings = new shapeSettings();
   }
 
   export class legendSettings {
@@ -12,6 +13,12 @@ module powerbi.extensibility.visual {
     public color: string = "#616161";
     public fontsize: number = 28;
     public retourligne: boolean = false;
+  }
+
+  export class shapeSettings {
+    public text_color: string = "#000";
+    public text_size: number = 16;
+    public arc_linesize: number = 20;
   }
 
   export class VorSettings {

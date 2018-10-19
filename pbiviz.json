@@ -1,7 +1,7 @@
 {
   "visual": {
-    "name": "pbiflatpercent111",
-    "displayName": "pbi_flatpercent_1_11",
+    "name": "flatpercent",
+    "displayName": "pbi_flatpercent",
     "guid": "pbiflatpercent1115CCE995B042A45D29077864454EBD9FF",
     "visualClassName": "Visual",
     "version": "1.0.0",

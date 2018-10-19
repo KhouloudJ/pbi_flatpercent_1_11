@@ -71,6 +71,33 @@
         }
     ],
     "objects": {
+        "shape": {
+            "displayName": "Render",
+            "properties": {
+                "text_color": {
+                    "displayName": "Text Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "text_size": {
+                    "displayName": "Text Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "arc_linesize": {
+                    "displayName": "Arc line size",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
         "legend": {
             "displayName": "Legend",
             "properties": {

@@ -58,7 +58,7 @@ module powerbi.extensibility.visual {
             const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
             const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
-            var arc_width = 20;
+            var arc_width = this.settings.shape.arc_linesize;
             var arc1 = d3.arc().outerRadius(radius).innerRadius(radius - arc_width);
             var arc2 = d3.arc().outerRadius(radius - arc_width + 1).innerRadius(radius - arc_width * 2);
 
@@ -72,11 +72,11 @@ module powerbi.extensibility.visual {
 
             this.text.data([value_text])
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
-                .style('font-size', `${16}vmin`)
+                .style('font-size', `${this.settings.shape.text_size}vmin`)
                 .text(d => d);
 
             const text_height = (<any>this.text.node()).getBoundingClientRect().height;
-            this.text.attr("dy", `${text_height/2 - 12}px`);
+            this.text.attr("dy", `${text_height / 2 - 12}px`);
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
@@ -114,7 +114,7 @@ module powerbi.extensibility.visual {
                 }
             }
 
-            return "#000;";
+            return settings.shape.text_color;
         }
     }
 }
