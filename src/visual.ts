@@ -53,9 +53,10 @@ module powerbi.extensibility.visual {
             this.svg.attr("height", radius * 2);
             this.gcontainer.attr("transform", `translate(${options.viewport.width / 2}, ${radius})`);
 
+            const multiplicateur = this.settings.shape.percent ? 100 : 1;
             let value_text = Visual.getvalue(options.dataViews[0].categorical, "value_text");
-            value_text = isNaN(value_text) || value_text == null ? "" : `${value_text}%`;
-            const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc");
+            value_text = isNaN(value_text) || value_text == null ? "" : `${Math.round(+value_text*multiplicateur)}%`;
+            const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc")*multiplicateur;
             const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
             const arc_width = this.settings.shape.arc_linesize;
