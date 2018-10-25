@@ -90,6 +90,12 @@
                         "numeric": true
                     }
                 },
+                "text_offset_y": {
+                    "displayName": "Text Offset Y",
+                    "type": {
+                        "numeric": true
+                    }
+                },
                 "arc_linesize": {
                     "displayName": "Arc line size",
                     "type": {
@@ -100,6 +106,12 @@
                     "displayName": "Pourcentage",
                     "type": {
                         "bool": true
+                    }
+                },
+                "padding": {
+                    "displayName": "Padding",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }

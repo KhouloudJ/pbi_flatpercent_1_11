@@ -25,6 +25,7 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
+                .attr('alignment-baseline', `middle`)
                 .attr('text-anchor', 'middle');
 
             this.bottom_container = document.createElement("div");
@@ -46,20 +47,23 @@ module powerbi.extensibility.visual {
             this.bottom_container.style.color = this.settings.legend.color;
             this.bottom_container.style.fontSize = `${this.settings.legend.fontsize}px`;
             this.bottom_container.style.whiteSpace = this.settings.legend.retourligne ? "normal" : "nowrap";
-            this.bottom_container.style.fontWeight = this.settings.legend.bold ? 'bold': 'normal';
+            this.bottom_container.style.fontWeight = this.settings.legend.bold ? 'bold' : 'normal';
             this.bottom_container.style.fontFamily = this.settings.legend.fontFamily;
-
             const legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
 
-            var radius = Math.min(options.viewport.width, options.viewport.height - legend_height) / 2;
-            this.svg.attr("width", options.viewport.width);
-            this.svg.attr("height", radius * 2);
-            this.gcontainer.attr("transform", `translate(${options.viewport.width / 2}, ${radius})`);
+            const gHeight = options.viewport.height - this.settings.shape.padding - this.settings.shape.padding;
+            const gWidth = options.viewport.width - this.settings.shape.padding - this.settings.shape.padding;
+
+            var radius = Math.min(gWidth, gHeight - legend_height) / 2 - this.settings.shape.padding;
+            this.svg.attr("width", gWidth);
+            this.svg.attr("height", radius * 2 + this.settings.shape.padding);
+
+            this.gcontainer.attr("transform", `translate(${gWidth / 2 + this.settings.shape.padding}, ${radius + this.settings.shape.padding})`);
 
             const multiplicateur = this.settings.shape.percent ? 100 : 1;
             let value_text = Visual.getvalue(options.dataViews[0].categorical, "value_text");
-            value_text = isNaN(value_text) || value_text == null ? "" : `${Math.round(+value_text*multiplicateur)}%`;
-            const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc")*multiplicateur;
+            value_text = isNaN(value_text) || value_text == null ? "" : `${Math.round(+value_text * multiplicateur)}%`;
+            const value_arc = +Visual.getvalue(options.dataViews[0].categorical, "value_arc") * multiplicateur;
             const vor_flag = +Visual.getvalue(options.dataViews[0].categorical, "vor_flag");
 
             const arc_width = this.settings.shape.arc_linesize;
@@ -76,13 +80,12 @@ module powerbi.extensibility.visual {
 
             this.text.data([value_text])
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
-                .style('font-size', `${this.settings.shape.text_size}vmin`)
-                .style('vertical-align', `text-top`)
+                .style('font-size', `${this.settings.shape.text_size}px`)
+                .attr('dy', `${this.settings.shape.text_offset_y}px`)
                 .text(d => d);
 
-            const text_height = (<any>this.text.node()).getBoundingClientRect().height;
-            console.log(text_height)
-            this.text.attr("dy", `${text_height / 2 - 12}px`);
+            // const text_height = (<any>this.text.node()).getBoundingClientRect().height;
+            // this.text.attr("dy", `${text_height / 2 - 12}px`);
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
