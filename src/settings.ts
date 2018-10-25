@@ -13,6 +13,8 @@ module powerbi.extensibility.visual {
     public color: string = "#777777";
     public fontsize: number = 11;
     public retourligne: boolean = false;
+    public bold: boolean = false;
+    public fontFamily: string = "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif";
   }
 
   export class shapeSettings {

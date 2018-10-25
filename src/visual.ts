@@ -5,8 +5,8 @@ module powerbi.extensibility.visual {
         private settings: VisualSettings;
         private gcontainer: d3.Selection<d3.BaseType, {}, null, undefined>;
         private pie = d3.pie().sort(null).value(d => <any>d);
-        private color1 = ["#003A84", "#00B0E8"];
-        private color2 = ["#30629D", "#3DC0ED"];
+        private color1 = ["#003A84", "#00B0E8"]; // 14980, 45288 ->> 7664
+        private color2 = ["#30629D", "#3DC0ED"]; // 3170973, 4047085 ->> 876112
         private path1: d3.Selection<d3.BaseType, d3.PieArcDatum<number | { valueOf(): number }>, d3.BaseType, {}>;
         private path2: d3.Selection<d3.BaseType, d3.PieArcDatum<number | { valueOf(): number }>, d3.BaseType, {}>;
         private text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>;
@@ -46,6 +46,9 @@ module powerbi.extensibility.visual {
             this.bottom_container.style.color = this.settings.legend.color;
             this.bottom_container.style.fontSize = `${this.settings.legend.fontsize}px`;
             this.bottom_container.style.whiteSpace = this.settings.legend.retourligne ? "normal" : "nowrap";
+            this.bottom_container.style.fontWeight = this.settings.legend.bold ? 'bold': 'normal';
+            this.bottom_container.style.fontFamily = this.settings.legend.fontFamily;
+
             const legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
 
             var radius = Math.min(options.viewport.width, options.viewport.height - legend_height) / 2;
@@ -74,9 +77,11 @@ module powerbi.extensibility.visual {
             this.text.data([value_text])
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
                 .style('font-size', `${this.settings.shape.text_size}vmin`)
+                .style('vertical-align', `text-top`)
                 .text(d => d);
 
             const text_height = (<any>this.text.node()).getBoundingClientRect().height;
+            console.log(text_height)
             this.text.attr("dy", `${text_height / 2 - 12}px`);
         }
 
