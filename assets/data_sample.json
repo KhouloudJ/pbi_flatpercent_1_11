@@ -4,24 +4,24 @@
             "id": 0,
             "Category": "Categorie 1",
             "libelle": "Test de base vor rouge",
-            "text": 57,
-            "arc": 75,
+            "text": 0.57,
+            "arc": 0.75,
             "vor": 1
         },
         {
             "id": 1,
             "Category": "Categorie 1",
             "libelle": "Test de base vor orange",
-            "text": 75,
-            "arc": 57,
+            "text": 0.75,
+            "arc": 0.57,
             "vor": 10
         },
         {
             "id": 2,
             "Category": "Categorie 1",
             "libelle": "Test de base vor vert",
-            "text": 75,
-            "arc": 80,
+            "text":0.75,
+            "arc": 0.80,
             "vor": 100
         },
         {
@@ -29,14 +29,14 @@
             "Category": "Categorie 2",
             "libelle": "Test sans text",
             "text": null,
-            "arc": 33,
+            "arc": 0.33,
             "vor": 100
         },
         {
             "id": 4,
             "Category": "Categorie 3",
             "libelle": "Test sans arc",
-            "text": 47,
+            "text": 0.47,
             "arc": null,
             "vor": 100
         },
@@ -44,16 +44,16 @@
             "id": 5,
             "Category": "Categorie 3",
             "libelle": "Test sans vor",
-            "text": 81,
-            "arc": 65,
+            "text": 0.81,
+            "arc": 0.65,
             "vor": null
         },
         {
             "id": 6,
             "Category": "Categorie 4",
             "libelle": null,
-            "text": 21,
-            "arc": 37,
+            "text": 0.21,
+            "arc": 0.37,
             "vor": 100
         },
         {
