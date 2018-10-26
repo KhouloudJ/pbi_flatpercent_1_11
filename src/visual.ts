@@ -1,6 +1,8 @@
 module powerbi.extensibility.visual {
     "use strict";
     export class Visual implements IVisual {
+        private visual_top: HTMLDivElement;
+        private visual_svg_container: HTMLDivElement;
         private svg: d3.Selection<d3.BaseType, {}, null, undefined>;
         private settings: VisualSettings;
         private gcontainer: d3.Selection<d3.BaseType, {}, null, undefined>;
@@ -14,7 +16,15 @@ module powerbi.extensibility.visual {
         private legend_text: Text;
 
         constructor(options: VisualConstructorOptions) {
-            this.svg = d3.select(options.element).append('svg');
+            this.visual_top = document.createElement("div");
+            this.visual_top.className = "visual_top";
+            options.element.appendChild(this.visual_top);
+
+            this.visual_svg_container = document.createElement("div");
+            this.visual_svg_container.className = "visual_svg_container";
+            this.visual_top.appendChild(this.visual_svg_container);
+
+            this.svg = d3.select(this.visual_svg_container).append('svg');
             this.gcontainer = this.svg.append('g').classed('percenter', true);
             this.path1 = this.gcontainer.append("g").selectAll("path").data(this.pie([0, 100])).enter().append("path");
             this.path2 = this.gcontainer.append("g").selectAll("path").data(this.pie([0, 100])).enter().append("path");
@@ -33,11 +43,12 @@ module powerbi.extensibility.visual {
 
             this.legend_text = this.bottom_container.appendChild(document.createTextNode(""));
             this.bottom_container.appendChild(this.legend_text);
-            options.element.appendChild(this.bottom_container);
+            this.visual_top.appendChild(this.bottom_container);
         }
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
+            this.visual_top.setAttribute("style", `height:${options.viewport.height}px`);
 
             const legend_text = Visual.getcategory(options.dataViews[0].categorical, "legend");
             const avec_legend = this.settings.legend.show && legend_text;
@@ -51,14 +62,14 @@ module powerbi.extensibility.visual {
             this.bottom_container.style.fontFamily = this.settings.legend.fontFamily;
             const legend_height = avec_legend ? this.bottom_container.offsetHeight : 0;
 
-            const gHeight = options.viewport.height - this.settings.shape.padding - this.settings.shape.padding;
-            const gWidth = options.viewport.width - this.settings.shape.padding - this.settings.shape.padding;
+            this.visual_svg_container.setAttribute("style", `margin-top:${this.settings.shape.padding}px`);
+            const gHeight = this.visual_svg_container.clientHeight;
+            const gWidth = this.visual_svg_container.clientWidth;
 
-            var radius = Math.min(gWidth, gHeight - legend_height) / 2 - this.settings.shape.padding;
+            var radius = Math.min(gWidth, gHeight - legend_height) / 2;
             this.svg.attr("width", gWidth);
-            this.svg.attr("height", radius * 2 + this.settings.shape.padding);
-
-            this.gcontainer.attr("transform", `translate(${gWidth / 2 + this.settings.shape.padding}, ${radius + this.settings.shape.padding})`);
+            this.svg.attr("height", radius * 2);
+            this.gcontainer.attr("transform", `translate(${gWidth / 2}, ${radius})`);
 
             const multiplicateur = this.settings.shape.percent ? 100 : 1;
             let value_text = Visual.getvalue(options.dataViews[0].categorical, "value_text");
