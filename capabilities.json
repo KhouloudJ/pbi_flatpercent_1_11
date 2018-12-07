@@ -298,6 +298,23 @@
                     }
                 }
             }
+        },
+        "tooltip": {
+            "displayName": "Tooltip",
+            "properties": {
+                "show": {
+                    "displayName": "Afficher",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "libelle": {
+                    "displayName": "Libelle",
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
         }
     },
     "suppressDefaultTitle": true

@@ -6,6 +6,7 @@ module powerbi.extensibility.visual {
     public legend: legendSettings = new legendSettings();
     public vor: VorSettings = new VorSettings();
     public shape: shapeSettings = new shapeSettings();
+    public tooltip: ToolTipSettings = new ToolTipSettings();
   }
 
   export class legendSettings {
@@ -31,5 +32,10 @@ module powerbi.extensibility.visual {
     public lowColor: string = "#f44336";
     public middleColor: string = "#ff9800";
     public highColor: string = "#4caf50";
+  }
+
+  export class ToolTipSettings {
+    public show: boolean = true;
+    public libelle: string = "Taux d'atteinte objectif annuel";
   }
 }

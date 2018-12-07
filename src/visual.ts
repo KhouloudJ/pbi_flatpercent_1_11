@@ -1,6 +1,7 @@
 module powerbi.extensibility.visual {
     "use strict";
     export class Visual implements IVisual {
+        private host: IVisualHost;
         private visual_top: HTMLDivElement;
         private visual_svg_container: HTMLDivElement;
         private svg: d3.Selection<d3.BaseType, {}, null, undefined>;
@@ -14,8 +15,12 @@ module powerbi.extensibility.visual {
         private text: d3.Selection<d3.BaseType, {}, d3.BaseType, {}>;
         private bottom_container: HTMLElement;
         private legend_text: Text;
+        private tooltips: VisualTooltipDataItem[];
+        private showtooltip = false;
+        private padding = 20;
 
         constructor(options: VisualConstructorOptions) {
+            this.host = options.host;
             this.visual_top = document.createElement("div");
             this.visual_top.className = "visual_top";
             options.element.appendChild(this.visual_top);
@@ -24,8 +29,8 @@ module powerbi.extensibility.visual {
             this.visual_svg_container.className = "visual_svg_container";
             this.visual_top.appendChild(this.visual_svg_container);
 
-            this.svg = d3.select(this.visual_svg_container).append('svg');
-            this.gcontainer = this.svg.append('g').classed('percenter', true);
+            this.svg = d3.select(this.visual_svg_container).append("svg");
+            this.gcontainer = this.svg.append("g").classed("percenter", true);
             this.path1 = this.gcontainer.append("g").selectAll("path").data(this.pie([0, 100])).enter().append("path");
             this.path2 = this.gcontainer.append("g").selectAll("path").data(this.pie([0, 100])).enter().append("path");
 
@@ -36,7 +41,42 @@ module powerbi.extensibility.visual {
                 .enter()
                 .append('text')
                 .attr('alignment-baseline', `middle`)
-                .attr('text-anchor', 'middle');
+                .attr('text-anchor', 'middle')
+                .on("mouseover", d => {
+                    if (this.showtooltip) {
+                        let mouse = d3.mouse(<any>this.svg.node());
+                        let x = mouse[0];
+                        let y = mouse[1] + this.padding;
+
+                        this.host.tooltipService.show({
+                            dataItems: this.tooltips,
+                            identities: ["arcvalue"],
+                            coordinates: [x, y],
+                            isTouchEvent: false
+                        });
+                    }
+                }).on("mousemove", (d) => {
+                    if (this.showtooltip) {
+                        let mouse = d3.mouse(<any>this.svg.node());
+                        let x = mouse[0];
+                        let y = mouse[1] + this.padding;
+
+                        this.host.tooltipService.move({
+                            dataItems: this.tooltips,
+                            identities: ["arcvalue"],
+                            coordinates: [x, y],
+                            isTouchEvent: false
+                        });
+                    }
+                })
+                .on("mouseout", (d) => {
+                    if (this.showtooltip) {
+                        this.host.tooltipService.hide({
+                            immediately: true,
+                            isTouchEvent: false
+                        });
+                    }
+                });
 
             this.bottom_container = document.createElement("div");
             this.bottom_container.className = "none";
@@ -89,14 +129,20 @@ module powerbi.extensibility.visual {
                 .style("fill", d => this.color2[d.index])
                 .attr("d", <any>arc2);
 
+            this.tooltips = [{
+                color: Visual.getVorColor(this.settings, vor_flag),
+                displayName: this.settings.tooltip.libelle,
+                value: ""
+            }];
+
+            this.showtooltip = this.settings.tooltip.show;
+            this.padding = this.settings.shape.padding;
+
             this.text.data([value_text])
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
                 .style('font-size', `${this.settings.shape.text_size}px`)
                 .attr('dy', `${this.settings.shape.text_offset_y}px`)
                 .text(d => d);
-
-            // const text_height = (<any>this.text.node()).getBoundingClientRect().height;
-            // this.text.attr("dy", `${text_height / 2 - 12}px`);
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
