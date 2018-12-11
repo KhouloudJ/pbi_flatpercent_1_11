@@ -40,7 +40,7 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
-                .attr("dy", "0.5ex")
+                .attr("dy", "0.35em")
                 .attr('alignment-baseline', `middle`)
                 .attr('text-anchor', 'middle')
                 .on("mouseover", d => {
