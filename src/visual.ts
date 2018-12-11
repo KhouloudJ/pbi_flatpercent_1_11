@@ -40,6 +40,7 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
+                .attr("dy", "0.5ex")
                 .attr('alignment-baseline', `middle`)
                 .attr('text-anchor', 'middle')
                 .on("mouseover", d => {
@@ -141,7 +142,6 @@ module powerbi.extensibility.visual {
             this.text.data([value_text])
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
                 .style('font-size', `${this.settings.shape.text_size}px`)
-                .attr('dy', `${this.settings.shape.text_offset_y}px`)
                 .text(d => d);
         }
 

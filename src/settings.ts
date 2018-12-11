@@ -21,7 +21,6 @@ module powerbi.extensibility.visual {
   export class shapeSettings {
     public text_color: string = "#000";
     public text_size: number = 16;
-    public text_offset_y: number = 5;
     public arc_linesize: number = 20;
     public padding: number = 20;
     public percent: boolean = true;

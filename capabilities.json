@@ -90,12 +90,6 @@
                         "numeric": true
                     }
                 },
-                "text_offset_y": {
-                    "displayName": "Text Offset Y",
-                    "type": {
-                        "numeric": true
-                    }
-                },
                 "arc_linesize": {
                     "displayName": "Arc line size",
                     "type": {
