@@ -40,8 +40,6 @@ module powerbi.extensibility.visual {
                 .data([''])
                 .enter()
                 .append('text')
-                .attr("dy", "0.35em")
-                .attr('alignment-baseline', `middle`)
                 .attr('text-anchor', 'middle')
                 .on("mouseover", d => {
                     if (this.showtooltip) {
@@ -143,6 +141,9 @@ module powerbi.extensibility.visual {
                 .style('fill', Visual.getVorColor(this.settings, vor_flag))
                 .style('font-size', `${this.settings.shape.text_size}px`)
                 .text(d => d);
+
+                const text_height = (<any>this.text.node()).getBBox().height/4;
+                this.text.attr("transform", `translate(0, ${text_height})`);
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
